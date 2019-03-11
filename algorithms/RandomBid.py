@@ -82,7 +82,7 @@ class RandomBidCE(IAlgorithm):
 
         print("Optimal base_bid: {}".format(self._base_bid))
 
-    def predict(self, test_x):
+    def predict(self, test_x, mode=None):
         """ Predicting for a dataset. This needs to be overwritten in every child classes.
         @:return: the bid
         """

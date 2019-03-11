@@ -1,7 +1,7 @@
 from algorithms.IAlgorithm import IAlgorithm
 from models.CTRLogistic import CTRLogistic
 from models.CTRXGboost import CTRXGboost
-from models.CTRModel import CTRModel
+from models.IModel import IModel
 from algorithms.CEAlgorithm import CEAlgorithm
 from Evaluator import _evaluate
 
@@ -48,8 +48,8 @@ class CDFBid(IAlgorithm):
     w = []
     models = []
 
-    def __init__(self, ceAlgo: CEAlgorithm, ctrModel: CTRModel, n_ctr=10, test_size=0.3, n_rounds=3,
-                    pretrained={}):
+    def __init__(self, ceAlgo: CEAlgorithm, ctrModel: IModel, n_ctr=10, test_size=0.3, n_rounds=3,
+                 pretrained={}):
         self.ceAlgo = ceAlgo
         self.ctrModel = ctrModel
         self.n_ctr = n_ctr

@@ -42,6 +42,7 @@ class CEAlgorithm(object):
             std = std
 
         if is_prud_case:
+            # initialization for PRUD algorithm
             mean = -12.6
             std = 1.5
 

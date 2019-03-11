@@ -1,76 +1,6 @@
-from algorithms.CEAlgorithm import CEAlgorithm
 from algorithms.IAlgorithm import IAlgorithm
 import numpy as np
 import tensorflow as tf
-
-
-class PolicyGradientGaussian(object):
-    def __init__(self, config, sess):
-        # initialization
-        self._s = sess
-
-        # build the graph
-        self._input = tf.placeholder(tf.float32,
-                                     shape=[config['state_dim']])
-
-        self.learning_rate = tf.placeholder(tf.float32, shape=[])
-
-        hidden_size = config['hidden_size']
-
-        hidden_layers = tf.layers.dense(self._input,
-                                        units=hidden_size[0],
-                                        activation=tf.nn.sigmoid,
-                                        use_bias=True,
-                                        name='weight_h0')
-
-        for h in hidden_size[1:-1]:
-            hidden_layers = tf.layers.dense(hidden_layers,
-                                            units=h,
-                                            activation=tf.nn.sigmoid,
-                                            use_bias=True,
-                                            name='weight')
-
-        hidden_layers = tf.layers.dense(hidden_layers,
-                                        units=1,
-                                        activation=None,
-                                        use_bias=True,
-                                        name='weight')
-
-        self.mu = tf.squeeze(hidden_layers)
-
-        with tf.variable_scope('weight', reuse=True):
-            self.weights = tf.get_variable('kernel')
-
-        self.action_dist = tf.distributions.Normal(self.mu, 1.0)
-
-        # training part of graph
-        self._action = tf.placeholder(tf.float32)
-        self._reward = tf.placeholder(tf.float32)
-
-        # get log probs of actions
-        log_acts = self._action
-        self.act_prob = tf.log(self.action_dist.prob(log_acts))
-
-        # surrogate loss
-        self.loss = -tf.reduce_mean(self.act_prob * self._reward)
-
-        # update + gradient clipping
-        optimizer = tf.train.GradientDescentOptimizer(self.learning_rate)
-        gradients, variables = zip(*optimizer.compute_gradients(self.loss))
-        gradients, _ = tf.clip_by_global_norm(gradients, 5.0)
-        self._train = optimizer.apply_gradients(zip(gradients, variables))
-
-    def act(self, state):
-        # get one action, by sampling
-        sample = self.action_dist.sample()
-        return self._s.run(sample,
-                           feed_dict={self._input: state})
-
-    def train_step(self, obs, learning_rate):
-        batch_feed = {self._input: obs,
-                      self.learning_rate: learning_rate}
-        _, loss = self._s.run([self._train, self.loss], feed_dict=batch_feed)
-        return loss
 
 
 class Actor(object):
@@ -204,12 +134,11 @@ class PolicyGradient(IAlgorithm):
         ctr_train = self.ctrModel.predict(train_x)
         self._ctr_pred_table = dict(zip(train_x.bidid.values, ctr_train))
 
-    def predict(self, test_x):
+    def predict(self, test_x, mode=None):
         """ Predicting for a dataset. This needs to be overwritten in every child classes.
         @:return: the bid
         """
-
-        return np.repeat(self._base_bid, test_x.shape[0])
+        pass
 
     def predict_single(self, impression, metric):
         """ Predicting for a single impression. T

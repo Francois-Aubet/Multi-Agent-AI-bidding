@@ -33,7 +33,7 @@ class IAlgorithm():
         raise NotImplementedError("Must override methodB")
 
     @abstractmethod
-    def predict(self):
+    def predict(self, test_x, mode=None):
         """ Predicting for a dataset. This needs to be overwritten in every child classes.
         @:return: 
         """

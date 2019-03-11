@@ -1,18 +1,15 @@
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.ensemble import RandomForestClassifier
 from scipy.sparse import hstack
-from imblearn.under_sampling import RandomUnderSampler
 from sklearn.preprocessing import OneHotEncoder
 
-from models.CTRModel import CTRModel
+from models.IModel import IModel
 import numpy as np
 import xgboost as xgb
-from sklearn.metrics import roc_auc_score, accuracy_score, log_loss
 import pandas as pd
-from Transformer import AddColumn, OneHotPandasEncoder, transform_all, MeanLabelEncoder, BagOfTags, CategoryCutter
+from Transformer import AddColumn, transform_all, BagOfTags, CategoryCutter
 
 
-class CTRXGboost(CTRModel):
+class CTRXGboost(IModel):
 
     def __init__(self, calibrate_prob=True):
 

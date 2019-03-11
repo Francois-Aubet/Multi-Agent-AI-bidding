@@ -1,9 +1,9 @@
 from abc import abstractmethod, ABCMeta
 
 
-class CTRModel():
+class IModel():
     """
-    The abstract parent class for all the algorithms.
+    The abstract parent class for all the models.
     """
     # we define the class as an abstract class:
     __metaclass__ = ABCMeta
@@ -11,18 +11,13 @@ class CTRModel():
     def __init__(self):
         """ Constructor of the abstract class.
 
-            Should contain all the parameters of the algorithm.
+            Should contain all the parameters of the models.
         """
 
     @abstractmethod
     def train(self, data_handler):
-        """ Training the algorithm using self._train* .
+        """ Training the model using self._train* .
         This needs to be overwritten in every child classes.
-
-        @:return: the train error
-
-        use tqdm to display the progress because dataset is big
-
         """
 
         raise NotImplementedError("Must override methodB")

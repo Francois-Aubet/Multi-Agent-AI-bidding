@@ -3,12 +3,12 @@ from scipy.sparse import bmat
 from sklearn.preprocessing import OneHotEncoder
 from sklearn import linear_model
 
-from models.CTRModel import CTRModel
+from models.IModel import IModel
 from Transformer import CategoryCutter, BagOfTags
 from sklearn.preprocessing import StandardScaler
 
 
-class CTRLogistic(CTRModel):
+class CTRLogistic(IModel):
 
     features = ['slotformat',
                  'adexchange',
