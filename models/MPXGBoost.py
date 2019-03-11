@@ -1,3 +1,4 @@
+from scipy.sparse import hstack
 from sklearn.preprocessing import OneHotEncoder
 from models.IModel import IModel
 import numpy as np
@@ -29,10 +30,7 @@ class MPXGboost(IModel):
         self.continous_features = [
             'slotprice',
             'slotwidth',
-            'slotheight',
-            # 'domain_ctr',
-            # 'city_ctr',
-            # 'slotid_ctr',
+            'slotheight'
         ]
 
         self.calibrate_prob = calibrate_prob

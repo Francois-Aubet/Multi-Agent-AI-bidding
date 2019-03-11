@@ -9,30 +9,27 @@ from sklearn.preprocessing import StandardScaler
 
 
 class CTRLogistic(IModel):
-
     features = ['slotformat',
-                 'adexchange',
-                 'os',
-                 'weekday',
-                 'advertiser',
-                 'browser',
-                 'slotvisibility',
-                 'slotheight',
-                 'keypage',
-                 'slotwidth',
-                 'hour',
-                 'region',
-                 'useragent',
-                 'creative',
-                 'slotprice',  # low ranking feature imp but more clicks in the end
-                 # 'slotprice_z',
-                 'city',
-                 'domain',
-                 'slotid',
-                 'IP',  # 'IP split',
-                 # 'usertag',
-                 'bag of tags',
-                 'url']
+                'adexchange',
+                'os',
+                'weekday',
+                'advertiser',
+                'browser',
+                'slotvisibility',
+                'slotheight',
+                'keypage',
+                'slotwidth',
+                'hour',
+                'region',
+                'useragent',
+                'creative',
+                'slotprice',  # low ranking feature imp but more clicks in the end
+                'city',
+                'domain',
+                'slotid',
+                'IP',  # 'IP split',
+                'bag of tags',
+                'url']
 
     num_features = ['slotprice_z']
 
@@ -73,7 +70,6 @@ class CTRLogistic(IModel):
         else:
             return df
 
-
     def fit(self, df_in):
         # returns sparse matrix
         features = self.features.copy()
@@ -92,7 +88,7 @@ class CTRLogistic(IModel):
         # categorical data + usertag + one-hot encoding
         if self.min_cat_freq is None:
             cc = CategoryCutter([i for i in features if i in df.columns and i not in self.num_features],
-                            verbose=self.verbose)
+                                verbose=self.verbose)
         else:
             cc = CategoryCutter([i for i in features if i in df.columns and i not in self.num_features],
                                 min_freq=self.min_cat_freq, verbose=self.verbose)
@@ -129,7 +125,6 @@ class CTRLogistic(IModel):
 
         f2 = [i for i in df_in.columns if i in features]
         f2 += [i for i in ['useragent', 'IP', 'slotprice'] if i in df_in.columns]  # add temporarily
-        # f2 += [i for i in ['useragent', 'IP'] if i in df_in.columns]  # add temporarily
         f2 = list(set(f2))
 
         df = self.engineer_features(df_in[f2].copy())

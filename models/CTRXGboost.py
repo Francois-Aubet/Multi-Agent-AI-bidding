@@ -32,10 +32,7 @@ class CTRXGboost(IModel):
         self.continous_features = [
             'slotprice',
             'slotwidth',
-            'slotheight',
-            # 'domain_ctr',
-            # 'city_ctr',
-            # 'slotid_ctr',
+            'slotheight'
         ]
 
         self.calibrate_prob = calibrate_prob
@@ -63,9 +60,6 @@ class CTRXGboost(IModel):
 
         return ret
 
-    # def calibrate_probability(self, p):
-    #     return p / (p + (1 - p) / self.down_sampling_rate)
-
     def train(self, data_handler, submission=False):
         train_x, train_y, vali_x, vali_y, _ = data_handler.get_datasets()
         train_x = train_x.assign(click=train_y['click'])
@@ -75,7 +69,6 @@ class CTRXGboost(IModel):
                           AddColumn(lambda df: df.os_browser.apply(lambda x: x[0]), "os"),
                           AddColumn(lambda df: df.os_browser.apply(lambda x: x[1]), "browser"),
                           CategoryCutter(feature_names=self.cat_features, min_freq=100)]
-        # MeanLabelEncoder(['domain', 'slotid', 'city'], 'click', train_x['click'].mean(), 100)]
 
         self.bot = BagOfTags()
         self.ohe = OneHotEncoder(handle_unknown='ignore')
@@ -89,7 +82,6 @@ class CTRXGboost(IModel):
         X_vali = self.transform(vali_x, fit=False)
         y_vali = vali_y['click'].astype(np.float32)
 
-        # scale_pos_weight = (1 - y_train).sum() / y_train.sum()
         self.model = xgb.XGBClassifier(n_estimators=100,
                                        objective="binary:logistic",
                                        random_state=42,
@@ -104,22 +96,6 @@ class CTRXGboost(IModel):
                        early_stopping_rounds=10,
                        eval_set=[(X_train, y_train), (X_vali, y_vali)])
 
-        # if submission:
-        #     best_n_estimators = self.model.best_ntree_limit
-        #     best_params = self.model.get_params()
-        #     self.model = xgb.XGBClassifier()
-        #     self.model.set_params(**best_params)
-        #     self.model.n_estimators = best_n_estimators
-        #
-        #     train_x = pd.concat([train_x, vali_x], ignore_index=True)
-        #
-        #     train_x_sample = self.underSampling(train_x, down_sampling_ratio)
-        #
-        #     X_train = self.transform(train_x_sample, fit=True)
-        #     y_train = train_x_sample['click'].astype(np.float32)
-        #
-        #     self.model.fit(X_train, y_train)
-
         self.model_calibrate = CalibratedClassifierCV(self.model, cv='prefit', method='isotonic')
 
         # prepare for calibration
@@ -129,9 +105,6 @@ class CTRXGboost(IModel):
         print("start training calibration")
         self.model_calibrate.fit(X_valid, y_valid)
         print("finish training calibration")
-
-        # if self.calibrate_prob:
-        #     self.down_sampling_rate = down_sampling_ratio
 
     def predict(self, test_x):
         # returns probabilities for positive class
