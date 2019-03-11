@@ -1,5 +1,3 @@
-from tqdm import tqdm
-
 
 # for potential future theading uses:
 # import threading

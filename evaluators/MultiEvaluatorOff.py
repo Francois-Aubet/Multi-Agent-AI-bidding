@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import numpy as np
 
-from Metrics import Metrics
+from evaluators.Metrics import Metrics
 
 
 

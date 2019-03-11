@@ -1,4 +1,4 @@
-from Evaluator import _evaluate
+from evaluators.Evaluator import _evaluate
 from algorithms.CDFBid import beta_mom, sample_match_valid
 import numpy as np
 import scipy.stats as stats

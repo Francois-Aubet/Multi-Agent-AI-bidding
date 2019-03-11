@@ -1,13 +1,11 @@
 import itertools
-from abc import abstractmethod
 
 import joblib
 
-from Evaluator import _evaluate
-from algorithms.CEAlgorithm import CEAlgorithm
+from evaluators.Evaluator import _evaluate
+from utils.CEMethod import CEAlgorithm
 from algorithms.IAlgorithm import IAlgorithm
 import numpy as np
-import pandas as pd
 
 
 class LinearBid(IAlgorithm):

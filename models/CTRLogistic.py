@@ -4,7 +4,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn import linear_model
 
 from models.IModel import IModel
-from Transformer import CategoryCutter, BagOfTags
+from utils.Transformer import CategoryCutter, BagOfTags
 from sklearn.preprocessing import StandardScaler
 
 

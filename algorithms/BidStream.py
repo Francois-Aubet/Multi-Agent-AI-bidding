@@ -1,9 +1,8 @@
-from algorithms.CEAlgorithm import CEAlgorithm
 from algorithms.IAlgorithm import IAlgorithm
 import numpy as np
 import math
 
-from Metrics import Metrics
+from evaluators.Metrics import Metrics
 
 
 class BidStream(IAlgorithm):

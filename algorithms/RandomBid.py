@@ -1,4 +1,4 @@
-from algorithms.CEAlgorithm import CEAlgorithm
+from utils.CEMethod import CEAlgorithm
 from algorithms.IAlgorithm import IAlgorithm
 import numpy as np
 

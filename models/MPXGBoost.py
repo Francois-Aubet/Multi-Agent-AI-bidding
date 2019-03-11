@@ -3,7 +3,7 @@ from models.IModel import IModel
 import numpy as np
 import xgboost as xgb
 import pandas as pd
-from Transformer import AddColumn, transform_all, BagOfTags, CategoryCutter
+from utils.Transformer import AddColumn, transform_all, BagOfTags, CategoryCutter
 
 
 class MPXGboost(IModel):

@@ -1,7 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from Metrics import Metrics
-import numpy as np
-from tqdm import tqdm
+from evaluators.Metrics import Metrics
 
 
 class IAlgorithm():

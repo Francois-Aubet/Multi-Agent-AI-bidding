@@ -1,9 +1,8 @@
 from tqdm import tqdm
 import numpy as np
-import joblib
 
-from Metrics import Metrics
-from utils import sample_match_valid
+from evaluators.Metrics import Metrics
+from utils.utils import sample_match_valid
 
 
 class MultiEvaluatorOnline():
@@ -137,16 +136,3 @@ class MultiEvaluatorOnline():
                 result_list.append(metr.compute_metrics())
 
         return result_list, csv_bid_list
-
-        # bids_impr_li = joblib.Parallel(n_jobs=8, verbose=0)(
-        #     joblib.delayed(algo.predict_single)(impression) for algo in self._algo_list
-        # )
-        # bids_impr = np.array(bids_impr_li)
-
-        # _ = joblib.Parallel(n_jobs=8, verbose=0)(
-        #     joblib.delayed(metric.reset_bid_var)() for metric in metric_list
-        # )
-
-        # print(bids_impr)
-        # print(bids_impr_li)
-        # print('--')

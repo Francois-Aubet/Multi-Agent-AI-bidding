@@ -2,8 +2,8 @@ from algorithms.IAlgorithm import IAlgorithm
 from models.CTRLogistic import CTRLogistic
 from models.CTRXGboost import CTRXGboost
 from models.IModel import IModel
-from algorithms.CEAlgorithm import CEAlgorithm
-from Evaluator import _evaluate
+from utils.CEMethod import CEAlgorithm
+from evaluators.Evaluator import _evaluate
 
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
